@@ -2,8 +2,11 @@ import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import uiRouter from 'angular-ui-router';
 
+import { Meteor } from 'meteor/meteor';
+
 import template from './partyDetails.html';
 import { Parties } from '../../../api/parties';
+import { name as PartyUninvited } from '../partyUninvited/partyUninvited';
 
 class PartyDetails {
   constructor($stateParams, $scope, $reactive) {
@@ -12,9 +15,14 @@ class PartyDetails {
     $reactive(this).attach($scope);
 
     this.partyId = $stateParams.partyId;
+    this.subscribe('parties');
+    this.subscribe('users');
     this.helpers({
       party(){
         return Parties.findOne({_id: $stateParams.partyId});
+      },
+      users(){
+        return Meteor.users.find({});
       }
     });
   }
@@ -25,7 +33,8 @@ class PartyDetails {
     }, {
       $set: {
         name: this.party.name,
-        description: this.party.description
+        description: this.party.description,
+        public: this.party.public
       }
     }, (error) => {
       if (error) {
@@ -42,7 +51,8 @@ const name = 'partyDetails';
 // create a module
 export default angular.module(name, [
   angularMeteor,
-  uiRouter
+  uiRouter,
+  PartyUninvited
 ]).component(name, {
   template,
   controllerAs: name,
@@ -54,6 +64,15 @@ function config($stateProvider) {
 
   $stateProvider.state('partyDetails', {
     url: '/parties/:partyId',
-    template: '<party-details></party-details>'
+    template: '<party-details></party-details>',
+    resolve: {
+      currentUser($q) {
+        if (Meteor.userId() === null) {
+          return $q.reject('AUTH_REQUIRED');
+        } else {
+          return $q.resolve();
+        }
+      }
+    }
   });
 }

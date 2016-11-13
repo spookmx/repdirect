@@ -1,11 +1,17 @@
 import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import uiRouter from 'angular-ui-router';
+import utilsPagination from 'angular-utils-pagination';
+
+import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import template from './partiesList.html';
 import { Parties } from '../../../api/parties';
+import { name as PartiesSort } from '../partiesSort/partiesSort';
 import { name as PartyAdd } from '../partyAdd/partyAdd';
 import { name as PartyRemove } from '../partyRemove/partyRemove';
+import { name as PartyCreator } from '../partyCreator/partyCreator';
+import { name as PartyRsvp } from '../partyRsvp/partyRsvp';
 
 class PartiesList {
   constructor($scope, $reactive) {
@@ -13,11 +19,39 @@ class PartiesList {
 
     $reactive(this).attach($scope);
 
+    this.perPage = 3;
+    this.page = 1;
+    this.sort = {
+      name: 1
+    };
+    this.searchText = '';
+
+    this.subscribe('parties', () => [{
+        limit: parseInt(this.perPage),
+        skip: parseInt((this.getReactively('page') - 1) * this.perPage),
+        sort: this.getReactively('sort')
+      }, this.getReactively('searchText')
+    ]);
+
     this.helpers({
       parties() {
-        return Parties.find({});
+        return Parties.find({},{
+          sort : this.getReactively('sort')
+        });
+      },
+      partiesCount() {
+        return Counts.get('numberOfParties');
+      },
+      isLoggedIn() {
+        return !!Meteor.userId();
       }
     });
+  }
+  pageChanged(newPage) {
+    this.page = newPage;
+  }
+  sortChanged(sort) {
+    this.sort = sort;
   }
 }
 
@@ -27,8 +61,12 @@ const name = 'partiesList';
 export default angular.module(name, [
   angularMeteor,
   uiRouter,
+  utilsPagination,
+  PartiesSort,
   PartyAdd,
-  PartyRemove
+  PartyRemove,
+  PartyCreator,
+  PartyRsvp
 ]).component(name, {
   template,
   controllerAs: name,
