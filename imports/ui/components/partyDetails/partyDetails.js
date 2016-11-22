@@ -5,7 +5,7 @@ import uiRouter from 'angular-ui-router';
 import { Meteor } from 'meteor/meteor';
 
 import template from './partyDetails.html';
-import { Parties } from '../../../api/parties';
+import { Companies } from '../../../api/companies';
 import { name as PartyUninvited } from '../partyUninvited/partyUninvited';
 
 class PartyDetails {

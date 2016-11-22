@@ -2,34 +2,36 @@ import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import ngSanitize from 'angular-sanitize';
 import uiRouter from 'angular-ui-router';
+import ngAnimate from 'angular-animate';
 
 import 'ionic-sdk/release/js/ionic';
 import 'ionic-sdk/release/js/ionic-angular';
 import 'ionic-sdk/release/css/ionic.css';
 
-import template from './socially.html';
-import { name as PartiesList } from '../partiesList/partiesList';
+import template from './repdirect.html';
+import { name as SearchView } from '../searchView/searchView';
 import { name as PartyDetails } from '../partyDetails/partyDetails';
 import { name as Navigation } from '../navigation/navigation';
 
-class Socially {}
+class Repdirect {}
 
-const name = 'socially';
+const name = 'repdirect';
 
 // create a module
 export default angular.module(name, [
   angularMeteor,
   ngSanitize,
+  ngAnimate,
   uiRouter,
-  PartiesList,
+  SearchView,
   PartyDetails,
   Navigation,
   'accounts.ui',
-  ionic
+  'ionic'
 ]).component(name, {
   template,
   controllerAs: name,
-  controller: Socially
+  controller: Repdirect
 })
 .config(config)
 .run();
@@ -39,7 +41,7 @@ function config($locationProvider, $urlRouterProvider) {
 
   $locationProvider.html5Mode(true);
 
-  $urlRouterProvider.otherwise('/parties');
+  $urlRouterProvider.otherwise('/search');
 }
 
 function run($rootScope, $state) {
@@ -48,7 +50,7 @@ function run($rootScope, $state) {
   $rootScope.$on('$stateChangeError',
     (event, toState, toParams, fromState, fromParams, error) => {
       if (error === 'AUTH_REQUIRED') {
-        $state.go('parties');
+        $state.go('search');
       }
     }
   );

@@ -3,11 +3,11 @@ import angularMeteor from 'angular-meteor';
 
 import { Meteor } from 'meteor/meteor';
 
-import { name as Socially } from '../imports/ui/components/socially/socially';
+import { name as Repdirect } from '../imports/ui/components/repdirect/repdirect';
 
 function onReady() {
   angular.bootstrap(document, [
-    Socially
+    Repdirect
   ], {
     strictDi: true
   });

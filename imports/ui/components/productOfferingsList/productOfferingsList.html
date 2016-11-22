@@ -1,0 +1,6 @@
+<div ng-if="productOfferingsList.user" class="positive">
+  <i class="icon ion-person"></i> {{ productOfferingsList.user.givenName }} {{ productOfferingsList.user.familyName }}
+</div>
+<div ng-if="!productOfferingsList.user">
+  <i class="icon ion-person"></i> No rep found
+</div>

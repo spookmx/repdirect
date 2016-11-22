@@ -1,3 +1,4 @@
 import '../imports/startup/fixtures';
-import '../imports/api/parties';
+import '../imports/api/companies';
+import '../imports/api/products';
 import '../imports/api/users';
