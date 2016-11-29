@@ -14,7 +14,7 @@ import { name as PartyCreator } from '../partyCreator/partyCreator';
 import { name as ProductOfferingsList } from '../productOfferingsList/productOfferingsList';
 
 class SearchView {
-  constructor($scope, $reactive) {
+  constructor($scope, $reactive, $state) {
     'ngInject';
 
     $reactive(this).attach($scope);
@@ -31,12 +31,6 @@ class SearchView {
         return !!Meteor.userId();
       }
     });
-  }
-  pageChanged(newPage) {
-    this.page = newPage;
-  }
-  sortChanged(sort) {
-    this.sort = sort;
   }
 }
 
@@ -62,6 +56,7 @@ function config($stateProvider) {
   $stateProvider
     .state('search', {
       url: '/search',
+      title: 'Search',
       template: '<search-view></search-view>'
     });
 }

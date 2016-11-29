@@ -10,10 +10,21 @@ import 'ionic-sdk/release/css/ionic.css';
 
 import template from './repdirect.html';
 import { name as SearchView } from '../searchView/searchView';
-import { name as PartyDetails } from '../partyDetails/partyDetails';
+import { name as ProfileView } from '../profileView/profileView';
+import { name as PortfolioView } from '../portfolioView/portfolioView';
+import { name as PortfolioCompanyView } from '../portfolioCompanyView/portfolioCompanyView';
 import { name as Navigation } from '../navigation/navigation';
 
-class Repdirect {}
+class Repdirect {
+  constructor($scope, $reactive, $state, $rootScope) {
+    'ngInject';
+    $reactive(this).attach($scope);
+    this.$state = $state;
+  }
+  goBack(){
+    console.log(this.$state);
+  }
+}
 
 const name = 'repdirect';
 
@@ -24,7 +35,9 @@ export default angular.module(name, [
   ngAnimate,
   uiRouter,
   SearchView,
-  PartyDetails,
+  ProfileView,
+  PortfolioView,
+  PortfolioCompanyView,
   Navigation,
   'accounts.ui',
   'ionic'
@@ -36,12 +49,13 @@ export default angular.module(name, [
 .config(config)
 .run();
 
-function config($locationProvider, $urlRouterProvider) {
+function config($locationProvider, $urlRouterProvider, $stateProvider) {
   'ngInject';
 
   $locationProvider.html5Mode(true);
 
   $urlRouterProvider.otherwise('/search');
+
 }
 
 function run($rootScope, $state) {

@@ -6,7 +6,8 @@ if (Meteor.isServer) {
       fields: {
         givenName: 1,
         familyName: 1,
-        products: 1
+        role:1,
+        portfolio: 1
       }
     });
   });

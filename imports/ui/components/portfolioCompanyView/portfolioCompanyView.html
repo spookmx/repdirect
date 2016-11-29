@@ -1,0 +1,12 @@
+<ion-view>
+
+  <ion-content padding="true" class="has-header">
+    <label class="item item-input">
+      <input type="text" placeholder="Search..." ng-model="portfolioCompanyView.searchText">
+      <a ng-if="portfolioCompanyView.searchText != ''" on-touch="portfolioCompanyView.searchText=''">
+         <i class="icon ion-ios-close placeholder-icon"></i>
+      </a>
+    </label>
+  </ion-content>
+
+</ion-view>
